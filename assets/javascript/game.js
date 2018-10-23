@@ -47,8 +47,8 @@ var gameArray = [
     
 ]
 
-var gifArray = ["q1.gif","q2.gif","q3.gif","q4.gif","q5.gif","q6.gif","q7.gif", "q8.gif", "q9.gif"];
-var finishArray = ["finish.gif"];
+var gifArray = ["correct.gif","incorrect.gif","no.gif"];
+var finishArray = ["finished.gif"];
 //reference to current 
 var currentQ = 0;
 //score
@@ -120,6 +120,7 @@ function newQuestion(){
         index = $(this).data("index");
         checkAnswer();
         clearInterval(time);
+        playKeySound();
     });
 }
 //timer
@@ -153,22 +154,25 @@ function checkAnswer(){
     var gameIndex = gameArray[currentQ].correct;
     var correctIndex = gameArray[currentQ].choices[gameArray[currentQ].correct];
 
-    $("#pic").html('<img src = "assets/images/'+ gifArray[currentQ] +' " width = "400px">');
+    
 
     //check answer
     if( (index == gameIndex)&& (answered ==true)){
         correctA++;
         $("#message").html("<h3>"+ messages.correct + "</h3>");
+        $("#pic").html('<img src = "assets/images/'+ gifArray[0] +' " width = "400px">');
     }
     else if((index != gameIndex)&& (answered ==true)){
         incorrectA++;
         $("#message").html("<h3>"+messages.incorrect+"</h3>");
         $("#correctAnswer").html("<h3> The correct answer is : "+correctIndex+"</h3>");
+        $("#pic").html('<img src = "assets/images/'+ gifArray[1] +' " width = "400px">');
     }
     else{
         noA++;
         $("#message").html("<h3>"+messages.endTime+"</h3>");
         $("#correctAnswer").html("<h3> The correct answer is : "+correctIndex+"</h3>");
+        $("#pic").html('<img src = "assets/images/'+ gifArray[2] +' " width = "400px">');
         answered = true;
     }
     
@@ -204,3 +208,9 @@ function results(){
 $("#restart").on("click", function(){
     newGame();
 });
+//play sound on click
+function playKeySound(){
+    var keySound = new Audio('./assets/Click.wav');
+    keySound.play();
+}
+
